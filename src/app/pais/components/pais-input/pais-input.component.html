@@ -1,0 +1,10 @@
+<form (ngSubmit)="buscar()" autocomplete="off">
+    <!-- Se agrega el evento input para utilizar el debouncer. -->
+    <input type="text"
+        name = "termino"
+        [placeholder] = "placeholder"
+        class="form-control"
+        (input)="teclaPresionada($event)"
+        [(ngModel)]="termino"
+    />
+</form>

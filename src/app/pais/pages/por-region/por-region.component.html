@@ -1,0 +1,23 @@
+<h2>Por Región</h2>
+<hr>
+<!-- 
+    Cuando utilizamos [] estamos diciendo que vamos a mandar el valor de un termino, si no las utilizamos
+    estamos enviando solamente un string.
+ -->
+<div class="row">
+    <div class="col">
+        <app-pais-input placeholder="Buscar región" (onEnter)="buscar($event)" (onDebounce)="sugerencias($event)"></app-pais-input>
+    </div>
+</div>
+
+<hr>
+
+<div *ngIf="isError" class="alert alert-danger">
+    No se encontro nada con el termino {{termino}}.
+</div>
+
+<div *ngIf="paises.length > 0" class="row">
+    <div class="col">
+        <app-pais-tabla [paises]="paises" ></app-pais-tabla>
+    </div>
+</div>
