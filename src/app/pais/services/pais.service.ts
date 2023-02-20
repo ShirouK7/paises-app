@@ -1,13 +1,18 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { Country } from '../interfaces/pais.interface';
+import { tap } from "rxjs/operators";
 
 @Injectable({
   providedIn: 'root'
 })
 export class PaisService {
+
+  get httpParams () {
+    return new HttpParams().set('fields', 'name,capital,alpha3Code,flag,population');
+  } 
 
   private apiUrl: string = 'https://restcountries.com/v3.1'; 
 
@@ -15,6 +20,7 @@ export class PaisService {
 
   buscarPais(termino: string): Observable<Country[]> {
     const url = `${this.apiUrl}/name/${termino}`;
+    // return this.http.get<Country[]>(url, {params: this.httpParams}); para hacer el filtrado.
     return this.http.get<Country[]>(url);
     /* Forma 2 del manejo de errores.
       .pipe(
@@ -31,7 +37,10 @@ export class PaisService {
 
   buscarRegion(termino: string): Observable<Country[]> {
     const url = `${this.apiUrl}/region/${termino}`;
-    return this.http.get<Country[]>(url);
+    return this.http.get<Country[]>(url)
+      .pipe(
+        tap (console.log)
+      )
   }
 
   buscarCodigo(id: string): Observable<Country[]> {
@@ -40,3 +49,5 @@ export class PaisService {
   }
 
 }
+
+

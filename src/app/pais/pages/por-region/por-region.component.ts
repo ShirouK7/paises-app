@@ -6,20 +6,36 @@ import { PaisService } from '../../services/pais.service';
   selector: 'app-por-region',
   templateUrl: './por-region.component.html',
   styles: [
+    `
+      button {
+        margin-right: 5px;
+      }
+    `
   ]
 })
 export class PorRegionComponent {
+  
+  regiones: string[] = ['africa', 'americas', 'asia', 'europe', 'oceania'];
+
+  regionActiva: string = '';
+
   termino: string = '';
   isError: boolean = false;
   paises: Country[] = [];
 
   constructor(private paisService: PaisService) {}
 
-  buscar(termino: string) {
-    this.isError = false;
-    this.termino = termino;
+  getClaseCSS ( region: string ): string {
+    return (region === this.regionActiva) ? 'btn btn-primary' : 'btn btn-outline-primary'
+  }
 
-    this.paisService.buscarRegion(termino)
+  activarRegion(region: string) {
+    this.regionActiva = region;
+
+    this.isError = false;
+    this.termino = region;
+
+    this.paisService.buscarRegion(region)
       .subscribe( 
       (paises) => {
         // console.log(paises);
@@ -38,4 +54,5 @@ export class PorRegionComponent {
     this.isError = false;
     // TODO: Crear sugerencias.
   }
+ 
 }
